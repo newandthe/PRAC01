@@ -18,6 +18,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     		http.csrf().disable();
     		http.authorizeRequests().anyRequest().permitAll().and().formLogin().loginPage("/").loginProcessingUrl("/login").defaultSuccessUrl("/bbslist");
+    		http.logout().logoutUrl("/logout").logoutSuccessUrl("/");
     		// login page 내에 넣기	// loginProcessurl 은 주소값 // 로그인이 성공되었을때 어디로 이동할지..
     		
         return http.build();

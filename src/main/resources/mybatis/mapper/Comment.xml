@@ -9,7 +9,7 @@
 		values (#{bbsseq}, #{content}, #{memberseq})
 	</insert>
 	
-	<select id="getcommentlist" parameterType="Integer" resultType="com.example.demo.VO.Comment">
+	<select id="getCommentlist" parameterType="Integer" resultType="com.example.demo.VO.Comment">
 	<!-- order by 시간순 desc -->
 		select *
 		from comment
@@ -18,19 +18,19 @@
 		order by wdate DESC
 	</select>
 	
-	<select id="getcommentusername" parameterType="Integer" resultType="String">
+	<select id="getCommentusername" parameterType="Integer" resultType="String">
 		select username
 		from member
 		where memberseq = #{memberseq} 
 	</select>
 	
-	<update id="commentdel" parameterType="Integer">
+	<update id="commentDel" parameterType="Integer">
 		update comment
 		set del = 1
 		where commentseq = #{commentseq}
 	</update>
 	
-	<update id="commentedit" parameterType="map">
+	<update id="commentEdit" parameterType="map">
 		update comment
 		set	content = #{content}
 		where commentseq = #{commentseq}

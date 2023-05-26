@@ -59,51 +59,51 @@
 		 where username = #{username}
 	 </select>
  	
- 	<insert id="bbswriteAf" parameterType="map">
+ 	<insert id="bbsWriteAf" parameterType="map">
 		insert into bbs(title, content, memberseq)
 		values ( #{title}, #{content}, #{memberseq} )
 	</insert>
 	
-	<select id="bbsdetail" parameterType="Integer" resultType="com.example.demo.VO.BBS">
+	<select id="bbsDetail" parameterType="Integer" resultType="com.example.demo.VO.BBS">
 		select *
 		from bbs
 		where bbsseq = #{bbsseq}
 	</select>
 	
 	<!-- 조인으로 게시물 번호에 대한 작성자 구하기. -->
-	<select id="Getusername" parameterType="Integer" resultType="String">
+	<select id="getUsername" parameterType="Integer" resultType="String">
 		select m.username
 		from member m
 		JOIN bbs b ON b.memberseq = m.memberseq
 		WHERE b.bbsseq = #{ bbsseq }
 	</select>
 	
-	<update id="bbsdelete" parameterType="Integer">
+	<update id="bbsDelete" parameterType="Integer">
 		update bbs
 		set del = 1
 		where bbsseq = #{bbsseq}
 	</update>
 	
-	<update id="bbsupdate" parameterType="com.example.demo.VO.BBS">
+	<update id="bbsUpdate" parameterType="com.example.demo.VO.BBS">
 		update bbs
 		set title = #{title}, content = #{content}
 		where bbsseq = #{bbsseq}
 	</update>
 	
-	<select id="isreadbbs" parameterType="map" resultType="Integer">
+	<select id="isReadbbs" parameterType="map" resultType="Integer">
 		select count(*)
 		from readcount
 		where bbsseq = #{bbsseq}
 		AND memberseq = #{memberseq}
 	</select>
 	
-	<update id="bbsreadcountupper" parameterType="Integer">
+	<update id="bbsReadcountupper" parameterType="Integer">
 		update bbs
 		set readcount = readcount + 1
 		where bbsseq = #{bbsseq}
 	</update>
 	
-	<insert id="isreadinsert" parameterType="map">
+	<insert id="isReadinsert" parameterType="map">
 		insert into readcount (bbsseq, memberseq)
 		values ( #{bbsseq}, #{memberseq} )
 	</insert>

@@ -11,14 +11,14 @@ import com.example.demo.VO.Comment;
 @Repository
 public interface CommentDao {
 
-	int commentwrite(Comment comment);
+	int commentWrite(Comment comment);
 
-	List<Comment> getcommentlist(int bbsseq);
+	List<Comment> getCommentlist(int bbsseq);
 
-	String getcommentusername(int memberseq);
+	String getCommentusername(int memberseq);
 
-	int commentdel(int commentseq);
+	int commentDel(int commentseq);
 
-	int commentedit(int commentseq, String content);
+	int commentEdit(int commentseq, String content);
 
 }

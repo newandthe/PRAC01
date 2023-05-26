@@ -72,7 +72,7 @@ public class BbsController {
 	}
 	
 	@GetMapping("/bbswrite")
-	public String bbswrite(Model model) {
+	public String bbsWrite(Model model) {
 		
 		
 		// 로그인 인증세션
@@ -87,7 +87,7 @@ public class BbsController {
 	
 	@PostMapping("/bbswriteAf")
 	@ResponseBody
-	public String bbswriteAf(@RequestParam("username") String username, 
+	public String bbsWriteAf(@RequestParam("username") String username, 
 							 @RequestParam("title") String title,
 							 @RequestParam("content") String content) {
 
@@ -95,7 +95,7 @@ public class BbsController {
 //		System.out.println(title);
 //		System.out.println(content);
 		
-		boolean isSuccess = bbsservice.bbswriteAf(username, title, content);
+		boolean isSuccess = bbsservice.bbsWriteAf(username, title, content);
 //		System.out.println("write boolean: " + isSuccess);
 		
 		if(isSuccess) {
@@ -108,12 +108,12 @@ public class BbsController {
 	
 	// 댓글 추가
 	@GetMapping("/bbsdetail/{bbsseq}")		// 조회수 로직 여기에 ..
-	public String bbsdetail(@PathVariable("bbsseq") int bbsseq, Model model){
+	public String bbsDetail(@PathVariable("bbsseq") int bbsseq, Model model){
 		
 		
 		
 		// System.out.println("조회수 하기위한 " + bbsseq);
-		BBS bbs = bbsservice.bbsdetail(bbsseq);
+		BBS bbs = bbsservice.bbsDetail(bbsseq);
 		model.addAttribute("bbs", bbs);
 		
 		// 로그인 인증세션
@@ -122,18 +122,19 @@ public class BbsController {
 			System.out.println("비인가 회원");
 			return "redirect:/login/sessionout";
 		}
-		System.out.println(authentication.toString());
+		// System.out.println(authentication.toString());
 		Member member = (Member) authentication.getPrincipal();
 		// System.out.println(member.toString());
 		// System.out.println(member.getMemberseq());
 		model.addAttribute("memberseq", member.getMemberseq());
 		
 		// 조회수 로직  (본인이 작성하지 않는 글만 조회수 증가, 동일한 사용자가 조회할 경우 중복으로 조회수 증가하지 않음)
-		bbsservice.bbsreadcountupper(bbsseq, member.getMemberseq());
+		// 비 인가 회원도 조회수 증가하지 않게 하려면 클라이언트에 쿠키로 구현해야.. ( 그래서 세션검사 진행했어요.. )
+		bbsservice.bbsReadcountupper(bbsseq, member.getMemberseq());
 		
 		// 댓글 리스트 로직
 		
-		List<Comment> commentlist = commentservice.getcommentlist(bbsseq);
+		List<Comment> commentlist = commentservice.getCommentlist(bbsseq);
 		
 //		System.out.println(commentlist.toString());
 		
@@ -144,10 +145,10 @@ public class BbsController {
 	
 	@PostMapping("/bbsdelete")
 	@ResponseBody
-	public String bbsdelete(@RequestParam("bbsseq") int bbsseq) {
+	public String bbsDelete(@RequestParam("bbsseq") int bbsseq) {
 		// System.out.println(bbsseq);
 		
-		if(bbsservice.bbsdelete(bbsseq)) {
+		if(bbsservice.bbsDelete(bbsseq)) {
 			
 			return "success";
 		} else {
@@ -156,11 +157,11 @@ public class BbsController {
 	}
 	
 	@PostMapping("/bbsupdate")
-	public String bbsupdate(@RequestParam("bbsseq") int bbsseq , Model model) {
+	public String bbsUpdate(@RequestParam("bbsseq") int bbsseq , Model model) {
 		
 		// System.out.println(bbsseq);
 		
-		BBS bbs = bbsservice.bbsdetail(bbsseq);
+		BBS bbs = bbsservice.bbsDetail(bbsseq);
 		model.addAttribute("bbs", bbs);
 		
 		// 로그인 인증세션
@@ -176,12 +177,12 @@ public class BbsController {
 	
 	   @PostMapping("/bbsupdateAf")
 	   @ResponseBody
-	   public String bbsupdateAf(@ModelAttribute BBS bbs) {	// 객체로 받아서 매핑
+	   public String bbsUpdateAf(@ModelAttribute BBS bbs) {	// 객체로 받아서 매핑
 	       
 	       // BBS [bbsseq=2, title=test2, content=test2, 
 		   // memberseq=0, readcount=0, wdate=null, del=0, username=abc]
 	       
-		   if(bbsservice.bbsupdate(bbs)) {
+		   if(bbsservice.bbsUpdate(bbs)) {
 			   return "success";
 		   } else {
 			   return "fail";

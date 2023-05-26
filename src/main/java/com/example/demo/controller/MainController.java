@@ -108,7 +108,7 @@ public class MainController {
     }
     
     @GetMapping("/login/sessionout")
-    public String sessionout() {
+    public String sessiOnOut() {
     	
     	return "sessionout";
     }

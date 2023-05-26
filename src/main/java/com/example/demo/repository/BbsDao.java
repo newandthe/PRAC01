@@ -15,22 +15,22 @@ public interface BbsDao {
 
 	int getTotalCount(String search);
 
-	int bbswriteAf(int memberseq, String title, String content);
+	int bbsWriteAf(int memberseq, String title, String content);
 
 	int getMemberseq(String username);
 
-	BBS bbsdetail(int bbsseq);
+	BBS bbsDetail(int bbsseq);
 
-	String Getusername(int bbsseq);
+	String getUsername(int bbsseq);
 
-	int bbsdelete(int bbsseq);
+	int bbsDelete(int bbsseq);
 
-	int bbsupdate(BBS bbs);
+	int bbsUpdate(BBS bbs);
 
-	int isreadbbs(int bbsseq, int memberseq);
+	int isReadbbs(int bbsseq, int memberseq);
 
-	void bbsreadcountupper(int bbsseq);
+	void bbsReadcountupper(int bbsseq);
 
-	void isreadinsert(int bbsseq, int memberseq);
+	void isReadinsert(int bbsseq, int memberseq);
 
 }

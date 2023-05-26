@@ -17,7 +17,7 @@ public class CommentController {
 	
 	@PostMapping("/commentwrite")
 	@ResponseBody
-	public String commentwrite(@RequestParam("bbsseq") int bbsseq, 
+	public String commentWrite(@RequestParam("bbsseq") int bbsseq, 
 							   @RequestParam("content") String content,
 							   @RequestParam("memberseq") int memberseq){
 		
@@ -29,7 +29,7 @@ public class CommentController {
 		comment.setContent(content);
 		comment.setMemberseq(memberseq);
 		
-		if(commentservice.commentwrite(comment)) {
+		if(commentservice.commentWrite(comment)) {
 			
 			
 			return "success";
@@ -42,10 +42,10 @@ public class CommentController {
 	
 	@PostMapping("/commentdel")
 	@ResponseBody
-	public String commentdel(@RequestParam("commentseq") int commentseq) {
+	public String commentDel(@RequestParam("commentseq") int commentseq) {
 //		System.out.println(commentseq);
 		
-		if(commentservice.commentdel(commentseq)) {
+		if(commentservice.commentDel(commentseq)) {
 			return "success";
 		} else {
 			return "fail";
@@ -54,12 +54,12 @@ public class CommentController {
 	
 	@PostMapping("/commentedit")
 	@ResponseBody
-	public String commentedit(@RequestParam("commentseq") int commentseq,
+	public String commentEdit(@RequestParam("commentseq") int commentseq,
 							  @RequestParam("content") String content) {
 //		System.out.println("commentseq: " + commentseq);
 //		System.out.println("content: " + content);
 		
-		if(commentservice.commentedit(commentseq, content)) {
+		if(commentservice.commentEdit(commentseq, content)) {
 			return "success";
 		}else {
 			return "fail";
