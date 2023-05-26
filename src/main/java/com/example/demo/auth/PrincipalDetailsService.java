@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Member.Member;
+import com.example.demo.VO.Member;
 import com.example.demo.repository.MemberDao;
 import com.mysql.cj.xdevapi.XDevAPIError;
 

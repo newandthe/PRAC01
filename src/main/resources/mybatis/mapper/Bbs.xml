@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.BbsDao">
+
+
+	<select id="getAllBBS" parameterType="map" resultType="com.example.demo.VO.BBS">
+	  SELECT *
+	  FROM bbs
+	  WHERE del = 0 <!-- 삭제되지 않은 게시물만 반환 -->
+	    <if test="search != null and !search.equals('')">
+	      AND (
+	        title LIKE CONCAT('%', #{search}, '%')
+	        OR content LIKE CONCAT('%', #{search}, '%')
+	        OR memberseq IN (
+	          SELECT b.memberseq
+	          FROM member m
+	          JOIN bbs b ON b.memberseq = m.memberseq
+	          WHERE m.username LIKE CONCAT('%', #{search}, '%')
+	        )
+	      )
+	    </if>
+	    <choose>
+	      <when test="choice == 'recentorderby'">
+	        ORDER BY wdate DESC
+	      </when>
+	      <when test="choice == 'readorderby'">
+	        ORDER BY readcount DESC
+	      </when>
+	    </choose>
+	  LIMIT #{pageSize} OFFSET #{offset}
+	</select>
+
+
+ 	<!-- 페이징 하기 위한 게시물이ㅡ 총 개수 -->
+ 	<select id="getTotalCount" parameterType="String" resultType="Integer">
+	  SELECT COUNT(*)
+	  FROM bbs
+	  WHERE del = 0
+	    <if test="search != null and !search.equals('')">
+	      AND (
+	        title LIKE CONCAT('%', #{search}, '%')
+	        OR content LIKE CONCAT('%', #{search}, '%')
+	        OR memberseq IN (
+	          SELECT b.memberseq
+	          FROM member m
+	          JOIN bbs b ON b.memberseq = m.memberseq
+	          WHERE m.username LIKE CONCAT('%', #{search}, '%')
+	        )
+	      )
+	    </if>
+	</select>
+
+ 	
+ 	<select id="getMemberseq" parameterType="String" resultType="Integer">
+		 select memberseq
+		 from member
+		 where username = #{username}
+	 </select>
+ 	
+ 	<insert id="bbswriteAf" parameterType="map">
+		insert into bbs(title, content, memberseq)
+		values ( #{title}, #{content}, #{memberseq} )
+	</insert>
+	
+	<select id="bbsdetail" parameterType="Integer" resultType="com.example.demo.VO.BBS">
+		select *
+		from bbs
+		where bbsseq = #{bbsseq}
+	</select>
+	
+	<!-- 조인으로 게시물 번호에 대한 작성자 구하기. -->
+	<select id="Getusername" parameterType="Integer" resultType="String">
+		select m.username
+		from member m
+		JOIN bbs b ON b.memberseq = m.memberseq
+		WHERE b.bbsseq = #{ bbsseq }
+	</select>
+	
+	<update id="bbsdelete" parameterType="Integer">
+		update bbs
+		set del = 1
+		where bbsseq = #{bbsseq}
+	</update>
+	
+	<update id="bbsupdate" parameterType="com.example.demo.VO.BBS">
+		update bbs
+		set title = #{title}, content = #{content}
+		where bbsseq = #{bbsseq}
+	</update>
+	
+	<select id="isreadbbs" parameterType="map" resultType="Integer">
+		select count(*)
+		from readcount
+		where bbsseq = #{bbsseq}
+		AND memberseq = #{memberseq}
+	</select>
+	
+	<update id="bbsreadcountupper" parameterType="Integer">
+		update bbs
+		set readcount = readcount + 1
+		where bbsseq = #{bbsseq}
+	</update>
+	
+	<insert id="isreadinsert" parameterType="map">
+		insert into readcount (bbsseq, memberseq)
+		values ( #{bbsseq}, #{memberseq} )
+	</insert>
+	
+</mapper>

@@ -4,7 +4,7 @@
 	
 	<mapper namespace="com.example.demo.repository.MemberDao">
 	
-	<insert id="regiAf" parameterType="com.example.demo.Member.Member">
+	<insert id="regiAf" parameterType="com.example.demo.VO.Member">
 		insert into member (username, password)
 		values (#{username}, #{password})	
 	</insert>
@@ -15,13 +15,13 @@
 		where username = #{username}
 	</select>
 	
-	<select id="loginAf" parameterType="com.example.demo.Member.Member" resultType="Integer">
+	<select id="loginAf" parameterType="com.example.demo.VO.Member" resultType="Integer">
 		select count(*)
 		from member
 		where username = #{username} AND password = #{password}
 	</select>
 	
-	<select id="getUser" parameterType="String" resultType="com.example.demo.Member.Member">
+	<select id="getUser" parameterType="String" resultType="com.example.demo.VO.Member">
 		select *
 		from member
 		where username=#{username}

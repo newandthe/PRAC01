@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.CommentDao">
+
+	<insert id="commentwrite" parameterType="com.example.demo.VO.Comment">
+		insert into comment(bbsseq, content, memberseq)
+		values (#{bbsseq}, #{content}, #{memberseq})
+	</insert>
+	
+	<select id="getcommentlist" parameterType="Integer" resultType="com.example.demo.VO.Comment">
+	<!-- order by 시간순 desc -->
+		select *
+		from comment
+		where bbsseq = #{bbsseq}
+		AND del = 0
+		order by wdate DESC
+	</select>
+	
+	<select id="getcommentusername" parameterType="Integer" resultType="String">
+		select username
+		from member
+		where memberseq = #{memberseq} 
+	</select>
+	
+	<update id="commentdel" parameterType="Integer">
+		update comment
+		set del = 1
+		where commentseq = #{commentseq}
+	</update>
+	
+	<update id="commentedit" parameterType="map">
+		update comment
+		set	content = #{content}
+		where commentseq = #{commentseq}
+	</update>
+
+</mapper>

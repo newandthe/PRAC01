@@ -1,15 +1,19 @@
 package com.example.demo.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-import com.example.demo.Member.Member;
+
+import com.example.demo.VO.Member;
 import com.example.demo.service.Serviceprac01;
 
 @Controller
@@ -44,14 +48,19 @@ public class MainController {
         
         
         Member member = serviceprac.getUser(username);
-        System.out.println(member.toString());
-        if(member.getUsername() == null) { // 입력한 아이디가 존재하지 않을경우 실패처리.
+//        System.out.println(member.toString());
+        if(member == null) { // 입력한 아이디가 존재하지 않을경우 실패처리.
         	return "fail";
         }
         
         
         // 입력한 비밀번호가 복호화된 비밀번호와 같다면 로그인 성공
         if(bCryptPasswordEncoder.matches(password, member.getPassword())) {
+        	// 인증 객체 생성
+            Authentication authentication = new UsernamePasswordAuthenticationToken(member, null, null);
+            // 현재 스레드의 SecurityContext에 인증 객체 설정
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            
         	return "success";
         } else {
         	return "fail";
@@ -98,14 +107,16 @@ public class MainController {
     	return "login";
     }
     
+    @GetMapping("/login/sessionout")
+    public String sessionout() {
+    	
+    	return "sessionout";
+    }
+    
     
 
 	
 	
-	@GetMapping("/bbslist")
-	public String bbslist() {
-		
-		return "bbslist";
-	}
+	
 
 }

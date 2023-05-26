@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>BbsUpdate</title>
+<link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<style>
+h1 {
+    text-align: center;
+    margin-top: 50px;
+}
+</style>
+</head>
+<body>
+    <h1>BbsUpdate</h1>
+    <hr />
+    <form id="bbsForm">
+        <div class="border rounded p-3" style="width: 800px; margin: 0 auto;">
+            
+            <input type="hidden" id="bbsseq" name="bbsseq" th:value="${bbs.bbsseq}">
+            
+            <span th:value="${bbs.content}"></span>
+
+            <div class="mb-3 form-group">
+                <label for="username" class="form-label">작성자</label> 
+                <input type="text" class="form-control" id="username" name="username" required readonly th:value="${username}">
+			</div>
+            <!-- 제목 입력란 -->
+            <div class="mb-3 form-group">
+                <label for="title" class="form-label">제목</label> 
+                <input type="text" class="form-control" id="title" name="title" required placeholder="제목을 입력해주세요.." th:value="${bbs.title}">
+            </div>
+            
+            <!-- 내용 입력란 -->
+            <div class="mb-3 form-group">
+                <label for="content" class="form-label">내용</label>
+                <textarea class="form-control" id="content" name="content" required rows="3" placeholder="내용을 입력해주세요..">[[${bbs.content}]]</textarea>
+            </div>
+
+            <!-- 작성 버튼 -->
+            <button type="button" class="btn btn-primary" onclick="bbsupdateAf()">수정제출</button>
+            <button type="button" class="btn btn-primary" onclick="handlereturn()">돌아가기</button>
+        </div>
+    </form>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+function bbsupdateAf() {
+    var formData = $('#bbsForm').serialize();
+
+    $.ajax({
+        url: "/bbsupdateAf",
+        type: "POST",
+        data: formData,
+        success: function(response) {
+            console.log(response);
+            if (response === "success") {
+                alert("게시물 수정 성공");
+                window.location.href = '/bbslist';
+            } else {
+                alert("게시물 수정 실패");
+            }
+        },
+        error: function() {
+            alert("게시물 수정 실패");
+        }
+    });
+}
+
+function handlereturn(){
+	window.location.href = '/bbslist';
+}
+</script>
+</html>
+
