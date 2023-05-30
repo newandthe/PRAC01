@@ -24,6 +24,15 @@ public class CommentController {
 //		System.out.println("bbsseq: " + bbsseq);
 //		System.out.println("cmtcontent: " + cmtcontent);
 //		System.out.println("memberseq: " + memberseq);
+		
+		if((Integer)bbsseq == null || bbsseq == 0) {
+			return "isErrorBbsseq";
+		} else if(content == null || content.trim() == "") {
+			return "contentblank";
+		} else if((Integer)memberseq == null || memberseq == 0) {
+			return "isErrorMemberseq";
+		}
+		
 		Comment comment = new Comment();
 		comment.setBbsseq(bbsseq);
 		comment.setContent(content);
@@ -45,6 +54,10 @@ public class CommentController {
 	public String commentDel(@RequestParam("commentseq") int commentseq) {
 //		System.out.println(commentseq);
 		
+		if((Integer)commentseq == null || commentseq == 0) {
+			return "isErrorCommentseq";
+		}
+		
 		if(commentservice.commentDel(commentseq)) {
 			return "success";
 		} else {
@@ -58,6 +71,12 @@ public class CommentController {
 							  @RequestParam("content") String content) {
 //		System.out.println("commentseq: " + commentseq);
 //		System.out.println("content: " + content);
+		
+		if((Integer)commentseq == null || commentseq == 0) {
+			return "isErrorCommentseq";
+		} else if (content == null || content.trim() == "") {
+			return "isErrorContent";
+		}
 		
 		if(commentservice.commentEdit(commentseq, content)) {
 			return "success";

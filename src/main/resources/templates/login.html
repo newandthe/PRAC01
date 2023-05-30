@@ -64,7 +64,12 @@ h1 {
 	            if (response === "success") {
 	                alert("로그인 성공");
 	                window.location.href = '/bbslist';
-	            } else {
+	            } else if(response === "usernameblank"){
+	            	alert("username 공백");
+	            } else if(response === "pwdblank"){
+	            	alert("pwd 공백");
+	            }
+	            else {
 	                alert("실패");
 	            }
 	        },

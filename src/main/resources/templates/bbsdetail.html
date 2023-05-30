@@ -45,10 +45,10 @@ h1 {
 
 
 		<div class="mb-3 form-group">
-			<label for="title" class="form-label">내용</label> <input type="text"
+			<label for="content" class="form-label">내용</label> <textarea 
 				class="form-control" id="content" name="content"
-				th:value="${bbs.content}" readonly
-				style="min-height: 200px; vertical-align: top;"></input>
+				th:text="${bbs.content}" readonly
+				style="min-height: 200px; vertical-align: top;"></textarea>
 		</div>
 
 		<button class="btn btn-primary" onclick="handlereturn()">게시판
@@ -192,7 +192,14 @@ h1 {
 					if (response === "success") {
 						alert("댓글 작성 완료");
 						window.location.href = '/bbsdetail/' + bbsseq;
-					} else {
+					} else if(response === "isErrorBbsseq"){
+						alert("bbsseq 전달 에러");
+					} else if(response === "contentblank"){
+						alert("content 빈칸 전달 에러");
+					} else if(response === "isErrorMemberseq"){
+						alert("memberseq 전달 에러");
+					}
+					else if(response === "fail") {
 						alert("실패");
 						window.location.href = '/bbsdetail/' + bbsseq;
 					}
@@ -220,7 +227,11 @@ h1 {
 				if (response === "success") {
 					alert("댓글 삭제 완료");
 					window.location.href = '/bbsdetail/' + bbsseq;
-				} else {
+				} 
+				else if(response === "isErrorCommentseq"){
+					alert("commentseq 전달 에러");
+				}
+				else if (response == "fail") {
 					alert("실패");
 					window.location.href = '/bbsdetail/' + bbsseq;
 				}
@@ -249,7 +260,14 @@ h1 {
 				if (response === "success") {
 					alert("댓글 수정 완료");
 					window.location.href = '/bbsdetail/' + bbsseq;
-				} else {
+				} 
+				else if (response === "isErrorCommentseq"){
+					alert("commentseq 전달 실패");
+				}
+				else if (response === "isErrorContent"){
+					alert("content 전달 실패");
+				}
+				else if (response === "fail"){
 					alert("실패");
 					window.location.href = '/bbsdetail/' + bbsseq;
 				}

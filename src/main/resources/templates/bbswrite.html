@@ -58,6 +58,19 @@ h1 {
 		var title = document.getElementById("title").value;
 		var content = document.getElementById("content").value;
 		
+		if(title.length > 100){
+			alert("제목은 100자 이내로 입력하실수 있습니다.");
+			
+			return;
+		}
+		
+		if(content.length == 0 || title.length == 0){
+			alert("제목 또는 내용을 입력해 주세요.")
+			
+			return;
+		}
+		
+		
 //		alert(username);
 //		alert(title);
 //		alert(content);
@@ -75,7 +88,17 @@ h1 {
 	            if (response === "success") {
 	                alert("게시물 작성 성공");
 	                window.location.href = '/bbslist';
-	            } else {
+	            } else if (response === "loginisnull"){
+	            	alert("세션이 만료 되었습니다. 다시 로그인해주세요.");
+	            	window.location.href = '/login';
+	            } else if (response === "titleblank"){
+	            	alert ("제목이 빈칸으로 전송되었습니다.");
+	            	window.location.href = '/bbswrite';
+	            } else if (response === "contentblank"){
+	            	alert ("내용이 빈칸으로 전송되었습니다.");
+	            	window.location.href = 'contentblank';
+	            }
+	            else {
 	                alert("실패");
 	                window.location.href = '/bbslist';
 	            }

@@ -45,6 +45,14 @@ public class MainController {
         
 //        String encodedPassword = bCryptPasswordEncoder.encode(password);
 //        System.out.println("암호화 비밀번호 password: " + encodedPassword);
+		
+		// 콘트롤러 parameter null 검사
+		if(username == null || username.trim() == "") {
+			return "usernameblank";
+		}
+		else if (password == null || username.trim() == "") {
+			return "pwdblank";
+		}
         
         
         Member member = serviceprac.getUser(username);
@@ -79,6 +87,11 @@ public class MainController {
     @ResponseBody
     public String checkDuplicateUsername(@RequestParam("username") String username) {
 //	    System.out.println(username);
+    	
+    	if(username.trim() == "" || username == null) {
+    		return "blankusername";
+    	}
+    	
         boolean isDuplicate = serviceprac.checkDuplicateUsername(username);
         if (isDuplicate) {
             return "duplicate";
@@ -91,6 +104,14 @@ public class MainController {
     public String regiAf(@RequestParam("username") String username, @RequestParam("password") String password) {
 //        System.out.println(username);
 //        System.out.println(password);
+    	
+    	if(username.trim() == "" || username == null) {
+    		System.out.println("!!username isNull!!");
+    		return "login";
+    	} else if(password.trim() == "" | password == null) {
+    		System.out.println("!!password isNull!!");
+    		return "login";
+    	}
     	
         Member member = new Member();
         

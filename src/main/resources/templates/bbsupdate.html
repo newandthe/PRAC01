@@ -48,7 +48,14 @@ h1 {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 function bbsupdateAf() {
-    var formData = $('#bbsForm').serialize();
+	var formData = $('#bbsForm').serialize();
+	var title = document.getElementById("title").value;
+	
+    if(title.length > 100){
+		alert("제목은 100자 이내로 입력하실수 있습니다.");
+		
+		return;
+	}
 
     $.ajax({
         url: "/bbsupdateAf",
@@ -59,7 +66,13 @@ function bbsupdateAf() {
             if (response === "success") {
                 alert("게시물 수정 성공");
                 window.location.href = '/bbslist';
-            } else {
+            } else if (response === "titleblank" ){
+            	alert("제목 공백");
+            } else if (response === "contentblank"){
+            	alert("내용 공백");
+            }
+            
+            else {
                 alert("게시물 수정 실패");
             }
         },
