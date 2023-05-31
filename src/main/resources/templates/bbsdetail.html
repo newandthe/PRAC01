@@ -170,9 +170,10 @@ h1 {
 	}
 
 	function commentwrite() {
+		
 
-		if (cmtcontent === null || cmtcontent === undefined
-				|| cmtcontent === '') {
+		if (cmtcontent.value === null || cmtcontent.value === undefined
+				|| cmtcontent.value === '') {
 			// console.log(cmtcontent.value);
 			alert("댓글을 입력해주세요..");
 			return;

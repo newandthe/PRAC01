@@ -106,10 +106,10 @@ public class MainController {
 //        System.out.println(password);
     	
     	if(username.trim() == "" || username == null) {
-    		System.out.println("!!username isNull!!");
+    		System.out.println("username isNull!!");
     		return "login";
     	} else if(password.trim() == "" | password == null) {
-    		System.out.println("!!password isNull!!");
+    		System.out.println("password isNull!!");
     		return "login";
     	}
     	

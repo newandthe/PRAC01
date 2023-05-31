@@ -99,12 +99,13 @@ public class BbsController {
 			return "loginisnull";
 		}
 
-		else if (title == null || title.trim() == "") {
+		// isEmpty를 사용해도 되지만, " " 의 경우 비어있지 않다고 판단
+		else if (title == null || title.trim() == "" || title.length() == 0) {
 
 			return "titleblank";
 		}
 
-		else if (content == null || content.trim() == "") {
+		else if (content == null || content.trim() == "" || content.length() == 0) {
 
 			return "contentblank";
 		}
@@ -158,7 +159,6 @@ public class BbsController {
 	@ResponseBody
 	public String bbsDelete(@RequestParam("bbsseq") int bbsseq) {
 		// System.out.println(bbsseq);
-
 		if ((Integer) bbsseq == null || bbsseq == 0) {
 			return "false";
 		}
@@ -175,6 +175,10 @@ public class BbsController {
 	public String bbsUpdate(@RequestParam("bbsseq") int bbsseq, Model model) {
 
 		// System.out.println(bbsseq);
+		if((Integer) bbsseq == null || bbsseq == 0) {
+			System.out.println("bbsupdate bbsseq 전달 오류 발생");
+			return "bbslist";
+		}
 
 		// 기존 정보 전달
 		BBS bbs = bbsservice.bbsDetail(bbsseq);
@@ -202,9 +206,9 @@ public class BbsController {
 		// memberseq=0, readcount=0, wdate=null, del=0, username=abc]
 		
 		// 콘트롤러 null 체크
-		if(bbs.getTitle() == null) {
+		if(bbs.getTitle() == null || bbs.getTitle().trim() == "") {
 			return "titleblank";
-		} else if(bbs.getContent() == null) {
+		} else if(bbs.getContent() == null || bbs.getTitle().trim() == "") {
 			return "contentblank";
 		} 
 
